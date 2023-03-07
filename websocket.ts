@@ -7,7 +7,7 @@ export default (server: HttpServer) => {
 
   //當有 client 連線成功時
   wss.on('connection', ws => {
-    console.log('Client connected')
+    console.log('⚡️Client connected ')
     // 當收到client消息時
     ws.on('message', data => {
       // 收回來是 Buffer 格式、需轉成字串
@@ -26,8 +26,8 @@ export default (server: HttpServer) => {
       console.log('Close connected');
     });
 
-    return wss;
   });
+  return wss;
 }
 
 export function broadcast(websocketServer: WebsocketServer, message: string) {

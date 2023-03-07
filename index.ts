@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 
 
-import router from './router';
+import createRouter from './router';
 import createWebsocketServer from './websocket';
 
 dotenv.config();
@@ -10,10 +10,10 @@ dotenv.config();
 const app: Express = express();
 const port = 8199;
 
-app.use('/', router);
-
 const server = app.listen(port, () => {
   console.log(`👍[server]: Server is running at http://localhost:${port}`);
 });
 
-createWebsocketServer(server);
+const httpServer = createWebsocketServer(server);
+const router = createRouter(httpServer);
+app.use('/', router);

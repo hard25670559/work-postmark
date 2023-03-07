@@ -9,12 +9,23 @@
 <body>
   <h1>Test</h1>
   <button onclick="sendAction()">Add Action</button>
+
+  <ul id="list">
+  </ul>
   <script>
-    async function sendAction() {
+    document.addEventListener('keypress', (ev) => {
+      console.log(ev.key);
+      sendAction(({
+        ' ': undefined,
+        t: 'pepe',
+        w: 'work',
+      }[ev.key]));
+    })
+    async function sendAction(action) {
       const result = await fetch('/postmark', {
         method: 'post',
         body: JSON.stringify({
-          action: 'pepe',
+          action,
         })
       });
 
@@ -31,12 +42,18 @@
       console.log('close connection');
     }
     //接收 Server 發送的訊息
-    // ws.onmessage = event => {
-    //   let txt = event.data;
-    //   if (!showDom.value) showDom.value = txt;
-    //   else showDom.value = showDom.value + "\n" + txt;
-    //   keyinDom.value = "";
-    // }
+    /**
+     *
+     * @param {MessageEvent<string>} event
+     */
+    function onmessage(event) {
+      console.log(event.data);
+      const ul = document.querySelector('ul');
+      const li = document.createElement('li');
+      li.innerText = event.data;
+      ul.appendChild(li);
+    }
+    ws.onmessage = onmessage;
   </script>
 </body>
 </html>
