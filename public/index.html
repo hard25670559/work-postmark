@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Test</h1>
+  <button onclick="sendAction()">Add Action</button>
+  <script>
+    async function sendAction() {
+      const result = await fetch('/postmark', {
+        method: 'post',
+        body: JSON.stringify({
+          action: 'pepe',
+        })
+      });
+
+      console.log(result);
+    }
+    // 建立 WebSocket (本例 server 端於本地運行)
+    const url = 'ws://localhost:8199';
+    const ws = new WebSocket(url);
+    // 監聽連線狀態
+    ws.onopen = () => {
+      console.log('open connection');
+    }
+    ws.onclose = () => {
+      console.log('close connection');
+    }
+    //接收 Server 發送的訊息
+    // ws.onmessage = event => {
+    //   let txt = event.data;
+    //   if (!showDom.value) showDom.value = txt;
+    //   else showDom.value = showDom.value + "\n" + txt;
+    //   keyinDom.value = "";
+    // }
+  </script>
+</body>
+</html>
