@@ -13,8 +13,13 @@
   <ul id="list">
   </ul>
   <script>
-    document.addEventListener('keypress', (ev) => {
-      console.log(ev.key);
+    window.addEventListener('keydown', (ev) => {
+      if (ev.keyCode === 8) {
+        const ul = document.querySelector('ul');
+        ul.innerHTML = '';
+      }
+    })
+    window.addEventListener('keypress', (ev) => {
       sendAction(({
         ' ': undefined,
         t: 'pepe',
@@ -28,8 +33,6 @@
           action,
         })
       });
-
-      console.log(result);
     }
     // 建立 WebSocket (本例 server 端於本地運行)
     const url = 'ws://localhost:8199';
@@ -47,7 +50,6 @@
      * @param {MessageEvent<string>} event
      */
     function onmessage(event) {
-      console.log(event.data);
       const ul = document.querySelector('ul');
       const li = document.createElement('li');
       li.innerText = event.data;
